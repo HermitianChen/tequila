@@ -287,7 +287,7 @@ class BackendCircuitPyquil(BackendCircuit):
 
             if isinstance(self.noise,str):
                 if device is not None:
-                    if self.noise is 'device':
+                    if self.noise == 'device':
                         self.device=retrieve_pyquil_device(device,True)
                     else:
                         raise TequilaException('noise was a string, but was not the string device. Not allowed!')
