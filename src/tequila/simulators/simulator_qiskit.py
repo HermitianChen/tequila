@@ -121,7 +121,7 @@ def retrieve_qiskit_device(device: str = None, samples=None, *args, **kwargs):
         return device
 
     elif isinstance(device,dict):
-        qiskit_provider=device['provider']
+        qiskit_provider = device['provider']
         d=device['name'].lower()
         return qiskit_provider.get_backend(name=d)
 
