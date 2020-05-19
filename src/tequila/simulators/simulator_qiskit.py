@@ -212,7 +212,7 @@ class BackendCircuitQiskit(BackendCircuit):
         else:
             self.device=None
         if isinstance(noise,str):
-            if noise is 'device':
+            if noise == 'device':
                 if device is not None:
                     self.noise_model=qiskitnoise.NoiseModel.from_backend(self.device)
                 else:
