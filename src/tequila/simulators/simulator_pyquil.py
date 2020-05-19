@@ -397,6 +397,8 @@ class BackendCircuitPyquil(BackendCircuit):
             self.resolver = None
 
     def check_device(self,device):
+        if device is None:
+            return
         if isinstance(device, str):
             d = device
             if '-qvm' in d.lower():
@@ -425,13 +427,13 @@ class BackendCircuitPyquil(BackendCircuit):
         elif isinstance(device, pyquil.api.QuantumComputer):
             return
 
-        elif device is None:
-            return
         else:
             raise TequilaException('Uninterpretable object {} of type {} passed to check_device!'.format(device,type(device)))
 
     def retrieve_device(self,device):
         use_device_noise = (self.noise == 'device')
+        if device is None:
+            return None
         if isinstance(device, str):
             try:
                 back = get_qc(device, noisy=use_device_noise)
