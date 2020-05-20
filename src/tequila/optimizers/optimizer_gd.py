@@ -158,13 +158,27 @@ class OptimizerGD(Optimizer):
             if gradient.lower() == 'qng':
                 compile_gradient = False
 
-                combos = get_qng_combos(objective, initial_values=initial_values, backend=self.backend,
+                combos = get_qng_combos(objective,initial_values=initial_values, backend=self.backend,
                                         device=self.device,
                                         samples=self.samples, noise=self.noise,
                                         )
                 dE = QNGVector(combos)
             else:
                 gradient = {"method": gradient, "stepsize": 1.e-4}
+        elif isinstance(gradient,dict):
+            if gradient['method'] == 'qng':
+                if 'function' in gradient.keys():
+                    compile_gradient = False
+
+                    combos = get_qng_combos(objective, func=gradient['function'], initial_values=initial_values,
+                                            backend=self.backend,
+                                            device=self.device,
+                                            samples=self.samples, noise=self.noise,
+                                            )
+                    dE = QNGVector(combos)
+                else:
+                    raise TequilaException('if you are using the qng dict initialization, please provide a function for calculating the QGT, using key \'function\'.')
+
 
         if compile_gradient:
             grad_obj, comp_grad_obj = self.compile_gradient(objective=objective, variables=variables, gradient=gradient)
